@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>A1 Brunch House</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #1a1a1a;
+      color: #fff;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 60px;
+      background: rgba(26,26,26,0.85);
+      backdrop-filter: blur(10px);
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+    }
+    .logo span { color: #f5a623; font-style: italic; }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+    nav ul a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    nav ul a:hover { color: #fff; }
+    .btn-order-nav {
+      background: #f5a623;
+      color: #1a1a1a !important;
+      font-weight: 600;
+      padding: 10px 22px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .btn-order-nav:hover { background: #e09010; }
+
+    /* ── HERO ── */
+    #home {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 50%, #111 100%);
+      display: flex;
+      align-items: center;
+      padding: 120px 60px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    #home::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(245,166,35,0.08) 0%, transparent 60%);
+    }
+    .hero-content { max-width: 560px; position: relative; z-index: 1; }
+    .hero-tagline {
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      color: #f5a623;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      font-weight: 500;
+    }
+    .hero-tagline span { margin: 0 8px; opacity: 0.5; }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      line-height: 1.05;
+      font-weight: 400;
+      color: #fff;
+      margin-bottom: 0;
+    }
+    .hero-title-italic {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-style: italic;
+      color: #f5a623;
+      line-height: 1.05;
+      margin-bottom: 28px;
+      display: block;
+    }
+    .hero-sub {
+      font-size: 1rem;
+      color: #aaa;
+      line-height: 1.7;
+      margin-bottom: 36px;
+      max-width: 420px;
+    }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 44px; }
+    .btn-primary {
+      background: #f5a623;
+      color: #1a1a1a;
+      font-weight: 600;
+      padding: 14px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: #e09010; }
+    .btn-dark {
+      background: #2d2d2d;
+      color: #fff;
+      font-weight: 500;
+      padding: 14px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      border: 1px solid #444;
+      transition: background 0.2s;
+    }
+    .btn-dark:hover { background: #3a3a3a; }
+    .hero-info {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+    .hero-info-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: #888;
+    }
+    .hero-info-item .icon { color: #f5a623; font-size: 1rem; }
+
+    /* ── SECTION BASE ── */
+    section { padding: 100px 60px; }
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #f5a623;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      line-height: 1.2;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: #1e1e1e; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .about-text p {
+      color: #aaa;
+      line-height: 1.8;
+      font-size: 0.97rem;
+      margin-bottom: 40px;
+    }
+    .about-features { display: flex; flex-direction: column; gap: 28px; }
+    .feature-item h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .feature-item p { color: #888; font-size: 0.88rem; line-height: 1.6; }
+
+    /* ── MENU ── */
+    #menu { background: #1a1a1a; }
+    .menu-header {
+      max-width: 1100px;
+      margin: 0 auto 40px;
+    }
+    .menu-header p { color: #888; font-size: 0.95rem; }
+    .menu-filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .filter-btn {
+      background: #2a2a2a;
+      border: 1px solid #3a3a3a;
+      color: #ccc;
+      padding: 8px 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: #f5a623;
+      color: #1a1a1a;
+      border-color: #f5a623;
+      font-weight: 600;
+    }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto 40px;
+    }
+    .menu-card {
+      background: #242424;
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid #2e2e2e;
+      transition: border-color 0.2s;
+    }
+    .menu-card:hover { border-color: #f5a623; }
+    .menu-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    .menu-card h3 {
+      font-size: 0.97rem;
+      font-weight: 600;
+      color: #fff;
+      flex: 1;
+      margin-right: 12px;
+    }
+    .menu-card .price {
+      color: #f5a623;
+      font-weight: 700;
+      font-size: 1rem;
+      white-space: nowrap;
+    }
+    .menu-card p {
+      color: #888;
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+    .menu-card .badge {
+      display: inline-block;
+      background: rgba(245,166,35,0.15);
+      color: #f5a623;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 50px;
+      margin-bottom: 8px;
+      border: 1px solid rgba(245,166,35,0.3);
+    }
+    .menu-card .veg-badge {
+      display: inline-block;
+      background: rgba(100,200,100,0.1);
+      color: #6cc96c;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 50px;
+      margin-bottom: 8px;
+      margin-left: 4px;
+      border: 1px solid rgba(100,200,100,0.3);
+    }
+    .menu-view-more {
+      text-align: center;
+    }
+
+    /* ── REVIEWS ── */
+    #reviews { background: #1e1e1e; }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 1000px;
+      margin: 40px auto 0;
+    }
+    .review-card {
+      background: #242424;
+      border-radius: 16px;
+      padding: 28px;
+      border: 1px solid #2e2e2e;
+    }
+    .review-card .quote { color: #f5a623; font-size: 2rem; line-height: 1; margin-bottom: 12px; }
+    .review-card p { color: #aaa; font-size: 0.93rem; line-height: 1.7; margin-bottom: 20px; }
+    .review-card .reviewer { color: #fff; font-weight: 600; font-size: 0.9rem; }
+
+    /* ── RESERVATION ── */
+    #contact { background: #1a1a1a; }
+    .reservation-wrap {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .reservation-wrap p { color: #888; margin-bottom: 36px; font-size: 0.95rem; }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #888;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: #242424;
+      border: 1px solid #333;
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #f5a623;
+    }
+    .form-group select option { background: #1a1a1a; }
+    .form-group textarea { min-height: 90px; resize: vertical; }
+    .btn-reserve {
+      margin-top: 20px;
+      width: 100%;
+      background: #f5a623;
+      color: #1a1a1a;
+      border: none;
+      padding: 15px;
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-reserve:hover { background: #e09010; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #111;
+      padding: 60px 60px 30px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 60px;
+      max-width: 1100px;
+      margin: 0 auto 40px;
+    }
+    .footer-brand .logo { font-size: 1.3rem; display: inline-block; margin-bottom: 14px; }
+    .footer-brand p { color: #777; font-size: 0.88rem; line-height: 1.7; max-width: 340px; }
+    .footer-contact h4 {
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .footer-contact p {
+      color: #777;
+      font-size: 0.85rem;
+      line-height: 1.9;
+    }
+    .footer-contact a { color: #777; text-decoration: none; }
+    .footer-contact a:hover { color: #f5a623; }
+    .footer-hours { margin-top: 16px; }
+    .footer-hours h4 { color: #fff; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+    .footer-hours p { color: #777; font-size: 0.85rem; line-height: 1.7; }
+    .footer-bottom {
+      border-top: 1px solid #222;
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-bottom p { color: #555; font-size: 0.8rem; }
+    .footer-bottom a { color: #555; text-decoration: none; margin-left: 16px; }
+    .footer-bottom a:hover { color: #f5a623; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      nav ul { display: none; }
+      section { padding: 70px 24px; }
+      #home { padding: 100px 24px 60px; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      footer { padding: 40px 24px 20px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="logo">A1 Brunch <span>House</span></a>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#contact" class="btn-order-nav">Order Online</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-content">
+    <p class="hero-tagline">Always Fresh <span>·</span> Budget Friendly <span>·</span> Family Owned</p>
+    <h1 class="hero-title">A1 Brunch</h1>
+    <span class="hero-title-italic">House</span>
+    <p class="hero-sub">Best breakfast &amp; quick lunch. Delicious meals that won't break the bank — fresh ingredients, homemade recipes, and prices you'll love.</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn-primary">View Our Menu</a>
+      <a href="#contact" class="btn-dark">Order Online</a>
+    </div>
+    <div class="hero-info">
+      <div class="hero-info-item"><span class="icon">🕐</span> Mon–Sun · 9:30 AM – 3:00 PM</div>
+      <div class="hero-info-item"><span class="icon">📍</span> 70A – 1407 John Counter Blvd, Kingston, ON</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text">
+      <p class="section-label">Our Story</p>
+      <h2 class="section-title">Family-Owned,<br>Made with Love</h2>
+      <p>Family-owned since day one, A1 Brunch House was built on a simple belief: everyone deserves a great meal at a fair price. We wake up early every morning to prepare fresh ingredients and cook with love, just like grandma used to. Visit us in store, order online, or let us deliver to you!</p>
+    </div>
+    <div class="about-features">
+      <div class="feature-item">
+        <h4>🌿 Always Fresh</h4>
+        <p>We prepare fresh ingredients every morning so every meal is made to order.</p>
+      </div>
+      <div class="feature-item">
+        <h4>💰 Budget Friendly</h4>
+        <p>Delicious homemade recipes at prices everyone can enjoy — no compromises.</p>
+      </div>
+      <div class="feature-item">
+        <h4>⚡ Quick Service</h4>
+        <p>Whether dine-in, takeout, or delivery — we get your food to you fast.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="menu-header">
+    <p class="section-label">The Menu</p>
+    <h2 class="section-title">Our Menu</h2>
+    <p>Fresh ingredients, homemade recipes, and prices you'll love — served every day.</p>
+  </div>
+
+  <div class="menu-filters">
+    <button class="filter-btn active" onclick="filterMenu('all', this)">All</button>
+    <button class="filter-btn" onclick="filterMenu('sandwich', this)">Sandwich</button>
+    <button class="filter-btn" onclick="filterMenu('platter', this)">Platter</button>
+    <button class="filter-btn" onclick="filterMenu('featured', this)">Featured</button>
+    <button class="filter-btn" onclick="filterMenu('bowls', this)">Bowls</button>
+    <button class="filter-btn" onclick="filterMenu('wraps', this)">Wraps</button>
+    <button class="filter-btn" onclick="filterMenu('salad', this)">Salad &amp; Soup</button>
+    <button class="filter-btn" onclick="filterMenu('snacks', this)">Snacks</button>
+    <button class="filter-btn" onclick="filterMenu('burger', this)">Burger</button>
+  </div>
+
+  <div class="menu-grid" id="menuGrid">
+
+    <div class="menu-card" data-cat="sandwich">
+      <div class="menu-card-top"><h3>Smoked Turkey Sandwich</h3><span class="price">$10</span></div>
+      <p>Smoked turkey with mozzarella cheese, lettuce, onions, tomatoes, mayo &amp; Italian dressing.</p>
+    </div>
+
+    <div class="menu-card" data-cat="sandwich featured">
+      <div class="menu-card-top"><h3>Reuben Sandwich</h3><span class="price">$13</span></div>
+      <span class="badge">Popular</span>
+      <p>Marble rye bread with warm corned beef and melted Swiss cheese, topped with sauerkraut.</p>
+    </div>
+
+    <div class="menu-card" data-cat="sandwich">
+      <div class="menu-card-top"><h3>Ham &amp; Cheese</h3><span class="price">$10</span></div>
+      <p>Smoked Black Forest ham with Swiss cheese, lettuce, onion, tomato, black olives &amp; mayo.</p>
+    </div>
+
+    <div class="menu-card" data-cat="sandwich">
+      <div class="menu-card-top"><h3>Club Sandwich</h3><span class="price">$13</span></div>
+      <p>Smoked turkey with crispy bacon, lettuce, tomatoes, mustard &amp; mayo.</p>
+    </div>
+
+    <div class="menu-card" data-cat="sandwich">
+      <div class="menu-card-top"><h3>Roast Beef</h3><span class="price">$10</span></div>
+      <p>Smoked roast beef sandwich with provolone, lettuce, onions &amp; mustard.</p>
+    </div>
+
+    <div class="menu-card" data-cat="sandwich featured">
+      <div class="menu-card-top"><h3>Chicken Sandwich</h3><span class="price">$13</span></div>
+      <p>Perfectly cooked chicken breast topped with lettuce, tomato, onions, black olives &amp; chipotle sauce.</p>
+    </div>
+
+    <div class="menu-card" data-cat="sandwich">
+      <div class="menu-card-top"><h3>B.L.T</h3><span class="price">$10</span></div>
+      <p>Maple wood smoked bacon cooked to crispy perfection, with melted cheddar, lettuce, tomato &amp; mayo.</p>
+    </div>
+
+    <div class="menu-card" data-cat="sandwich">
+      <div class="menu-card-top"><h3>Grilled Veggies</h3><span class="price">$9</span></div>
+      <span class="veg-badge">Vegetarian</span>
+      <p>All vegetables and cheese topped with your choice of sauce, finished on the grill with a touch of butter.</p>
+    </div>
+
+    <div class="menu-card" data-cat="platter">
+      <div class="menu-card-top"><h3>Egg &amp; Cheese</h3><span class="price">$5</span></div>
+      <p>Two eggs served on bread with melted cheddar cheese.</p>
+    </div>
+
+    <div class="menu-card" data-cat="platter">
+      <div class="menu-card-top"><h3>Western</h3><span class="price">$10</span></div>
+      <p>2 egg omelet with ham, sautéed green peppers, and onions, topped with cheddar cheese.</p>
+    </div>
+
+    <div class="menu-card" data-cat="platter featured">
+      <div class="menu-card-top"><h3>Stuffed Egg Roll</h3><span class="price">$10</span></div>
+      <span class="badge">Popular</span>
+      <p>3 eggs with onions, green peppers, tomatoes, and green onions, topped with melted cheese. Add avocado (+$3).</p>
+    </div>
+
+    <div class="menu-card" data-cat="platter featured">
+      <div class="menu-card-top"><h3>Bombay Style Omelette</h3><span class="price">$12</span></div>
+      <span class="badge">Popular</span>
+      <p>Chef's special with fresh garlic, ginger, green chilies, onions, and tomatoes, seasoned with hot spices and served with bread.</p>
+    </div>
+
+    <div class="menu-card" data-cat="platter featured">
+      <div class="menu-card-top"><h3>A1 Morning Sandwich</h3><span class="price">$12</span></div>
+      <span class="badge">Popular</span>
+      <p>Two eggs topped with cheddar cheese, layered with ham, bacon, lettuce, tomato &amp; mayo.</p>
+    </div>
+
+    <div class="menu-card" data-cat="platter featured">
+      <div class="menu-card-top"><h3>A1 Breakfast Platter</h3><span class="price">$7</span></div>
+      <p>2 eggs any style with 2 pieces of bacon and sausage, served with toast.</p>
+    </div>
+
+    <div class="menu-card" data-cat="platter">
+      <div class="menu-card-top"><h3>Morning Delight</h3><span class="price">$15</span></div>
+      <p>2 eggs any style, bacon, sliced fresh avocado, hash browns &amp; mixed fruits.</p>
+    </div>
+
+    <div class="menu-card" data-cat="platter">
+      <div class="menu-card-top"><h3>A1 Deluxe Platter</h3><span class="price">$15</span></div>
+      <p>2 eggs any style with bacon, sausage, hash browns &amp; fruit dish.</p>
+    </div>
+
+    <div class="menu-card" data-cat="bowls">
+      <div class="menu-card-top"><h3>Egg &amp; Avocado Bowl</h3><span class="price">$8</span></div>
+      <span class="veg-badge">Vegetarian</span>
+      <p>Two scrambled eggs with fresh greens, topped with sliced avocado, salt &amp; pepper.</p>
+    </div>
+
+    <div class="menu-card" data-cat="bowls">
+      <div class="menu-card-top"><h3>Deluxe Chicken Bowl</h3><span class="price">$10</span></div>
+      <p>Rice with chicken, fresh greens, shredded cheese &amp; your choice of sauce.</p>
+    </div>
+
+    <div class="menu-card" data-cat="bowls">
+      <div class="menu-card-top"><h3>Falafel Bowl</h3><span class="price">$10</span></div>
+      <span class="veg-badge">Vegetarian</span>
+      <p>Rice base with fresh greens, topped with golden falafel &amp; garlic aioli.</p>
+    </div>
+
+    <div class="menu-card" data-cat="bowls featured">
+      <div class="menu-card-top"><h3>Beans &amp; Rice Bowl</h3><span class="price">$11</span></div>
+      <span class="badge">Popular</span><span class="veg-badge">Vegetarian</span>
+      <p>Rice base with beans, fresh greens, cheese, chipotle &amp; garlic aioli.</p>
+    </div>
+
+    <div class="menu-card" data-cat="bowls">
+      <div class="menu-card-top"><h3>Butter Chicken Bowl</h3><span class="price">$14</span></div>
+      <p>Creamy butter chicken served with rice &amp; bread.</p>
+    </div>
+
+    <div class="menu-card" data-cat="wraps">
+      <div class="menu-card-top"><h3>Egg &amp; Hashbrown Wrap</h3><span class="price">$5</span></div>
+      <p>Two eggs wrapped with hash browns, finished with Thousand Island dressing or your choice of toppings.</p>
+    </div>
+
+    <div class="menu-card" data-cat="wraps">
+      <div class="menu-card-top"><h3>Western Wrap</h3><span class="price">$10</span></div>
+      <p>Two eggs, ham, green peppers, onions, and cheese wrapped in a tortilla &amp; grilled.</p>
+    </div>
+
+    <div class="menu-card" data-cat="wraps">
+      <div class="menu-card-top"><h3>Crispy Chicken Wrap</h3><span class="price">$8</span></div>
+      <p>Golden fried chicken wrapped in tortilla with lettuce, tomato, onions &amp; ranch.</p>
+    </div>
+
+    <div class="menu-card" data-cat="wraps">
+      <div class="menu-card-top"><h3>Falafel Wrap</h3><span class="price">$12</span></div>
+      <span class="veg-badge">Vegetarian</span>
+      <p>Basmati rice with golden fluffy falafel topped with fresh veggies, cheese &amp; garlic aioli.</p>
+    </div>
+
+    <div class="menu-card" data-cat="salad">
+      <div class="menu-card-top"><h3>Garden Salad</h3><span class="price">$3</span></div>
+      <span class="veg-badge">Vegetarian</span>
+      <p>Crisp romaine, cucumber, tomatoes, green peppers, onions, black olives, shredded cheese &amp; Italian dressing.</p>
+    </div>
+
+    <div class="menu-card" data-cat="salad">
+      <div class="menu-card-top"><h3>Tomato Ravioli</h3><span class="price">$5</span></div>
+      <p>Classic tomato ravioli soup.</p>
+    </div>
+
+    <div class="menu-card" data-cat="salad">
+      <div class="menu-card-top"><h3>Cream Of Broccoli</h3><span class="price">$6</span></div>
+      <span class="veg-badge">Vegetarian</span>
+      <p>Rich and creamy broccoli soup.</p>
+    </div>
+
+    <div class="menu-card" data-cat="salad">
+      <div class="menu-card-top"><h3>Beef Barley</h3><span class="price">$6</span></div>
+      <p>Hearty beef barley soup.</p>
+    </div>
+
+    <div class="menu-card" data-cat="snacks">
+      <div class="menu-card-top"><h3>Samosa</h3><span class="price">$5</span></div>
+      <span class="veg-badge">Vegetarian</span>
+      <p>Homemade pastry filled with mashed potatoes.</p>
+    </div>
+
+    <div class="menu-card" data-cat="snacks">
+      <div class="menu-card-top"><h3>Hot Dog</h3><span class="price">$9</span></div>
+      <p>Beef hot dog cooked to perfection served to your liking.</p>
+    </div>
+
+    <div class="menu-card" data-cat="burger">
+      <div class="menu-card-top"><h3>Alu Tiki Burger</h3><span class="price">$8</span></div>
+      <span class="veg-badge">Vegetarian</span>
+      <p>Spiced potato patty served with chutneys &amp; toppings.</p>
+    </div>
+
+    <div class="menu-card" data-cat="burger">
+      <div class="menu-card-top"><h3>Hamburger</h3><span class="price">$10</span></div>
+      <p>Classic grilled beef patty with fresh toppings.</p>
+    </div>
+
+    <div class="menu-card" data-cat="burger">
+      <div class="menu-card-top"><h3>Crispy Chicken Burger</h3><span class="price">$10</span></div>
+      <p>Golden deep fried chicken with lettuce, tomato &amp; BBQ sauce.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div style="max-width:1000px;margin:0 auto;">
+    <p class="section-label">Kind Words</p>
+    <h2 class="section-title">What Our Guests Say</h2>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="quote">"</div>
+      <p>The best breakfast spot in the city. The eggs Benedict are absolutely divine, and the atmosphere is so warm and welcoming.</p>
+      <span class="reviewer">— Sarah M.</span>
+    </div>
+    <div class="review-card">
+      <div class="quote">"</div>
+      <p>We come here every Sunday with the family. The pancakes are incredible and the kids love the fresh orange juice!</p>
+      <span class="reviewer">— James K.</span>
+    </div>
+    <div class="review-card">
+      <div class="quote">"</div>
+      <p>As someone with dietary restrictions, I love that they have so many healthy options without compromising on taste.</p>
+      <span class="reviewer">— Emily R.</span>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVATION / CONTACT -->
+<section id="contact">
+  <div class="reservation-wrap">
+    <p class="section-label">Reserve</p>
+    <h2 class="section-title">Save Your Spot</h2>
+    <p>Whether it's a cozy brunch for two or a family celebration, we'll have your table ready with a warm welcome.</p>
+    <form onsubmit="handleReservation(event)">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" placeholder="Your name" required />
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="your@email.com" required />
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" placeholder="613-000-0000" />
+        </div>
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" required />
+        </div>
+        <div class="form-group">
+          <label>Time</label>
+          <select required>
+            <option value="">Select</option>
+            <option>7:00 AM</option><option>7:30 AM</option>
+            <option>8:00 AM</option><option>8:30 AM</option>
+            <option>9:00 AM</option><option>9:30 AM</option>
+            <option>10:00 AM</option><option>10:30 AM</option>
+            <option>11:00 AM</option><option>11:30 AM</option>
+            <option>12:00 PM</option><option>12:30 PM</option>
+            <option>1:00 PM</option><option>1:30 PM</option>
+            <option>2:00 PM</option><option>2:30 PM</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Guests</label>
+          <select required>
+            <option value="">Select</option>
+            <option>1 Guest</option><option>2 Guests</option>
+            <option>3 Guests</option><option>4 Guests</option>
+            <option>5 Guests</option><option>6 Guests</option>
+            <option>7 Guests</option><option>8 Guests</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Special Requests</label>
+          <textarea placeholder="Allergies, accessibility needs, celebrations…"></textarea>
+        </div>
+      </div>
+      <button type="submit" class="btn-reserve">Reserve My Table</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#home" class="logo">A1 Brunch <span>House</span></a>
+      <p>Best breakfast &amp; quick lunch. Fresh ingredients, homemade recipes, and prices you'll love.</p>
+    </div>
+    <div>
+      <div class="footer-contact">
+        <h4>Get in Touch</h4>
+        <p>
+          📍 70A – 1407 John Counter Blvd,<br>Kingston, Ontario, K7K 6A9<br>
+          📞 <a href="tel:6135447335">613 – 544 – 7335</a><br>
+          ✉️ <a href="mailto:a1brunchhouse@gmail.com">a1brunchhouse@gmail.com</a>
+        </p>
+      </div>
+      <div class="footer-hours">
+        <h4>Opening Hours</h4>
+        <p>Monday – Sunday<br>9:30 AM – 3:00 PM</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 A1 Brunch House. All rights reserved.</p>
+    <div>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const el = document.querySelector(a.getAttribute('href'));
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Menu filter
+  function filterMenu(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.menu-card').forEach(card => {
+      if (cat === 'all' || card.dataset.cat.includes(cat)) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  // Reservation form
+  function handleReservation(e) {
+    e.preventDefault();
+    alert('Thank you! Your table reservation has been received. We will confirm shortly.');
+    e.target.reset();
+  }
+</script>
+
+</body>
+</html>
